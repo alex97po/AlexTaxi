@@ -49,6 +49,14 @@ public class MySQLTaxiDAO implements TaxiDAO {
 
     @Override
     public boolean insert(Taxi taxi) {
+        try (PreparedStatement preparedStatement =
+                     dataSource.getConnection().prepareStatement(Query.INSERT_NEW_TAXI)) {
+            preparedStatement.setString(1,taxi.getCarType());
+            preparedStatement.setString(2,taxi.getStateNumber());
+            preparedStatement.setString(3,taxi.getDriverName());
+        } catch (SQLException e) {
+            LOGGER.error("Error connection to DB");
+        }
         return false;
     }
 
