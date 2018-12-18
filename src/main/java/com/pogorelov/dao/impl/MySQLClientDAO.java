@@ -45,6 +45,15 @@ public class MySQLClientDAO implements ClientDAO {
 
     @Override
     public boolean insert(Client client) {
+        try (PreparedStatement preparedStatement =
+                     dataSource.getConnection().prepareStatement(Query.INSERT_NEW_CLIENT)) {
+            preparedStatement.setString(1,client.getClientAuth().getLogin());
+            preparedStatement.setString(2,client.getClientAuth().getPassword());
+            preparedStatement.setString(3,client.getName());
+            preparedStatement.setString(4,client.getClientAuth().getLogin());
+        } catch (SQLException e) {
+            LOGGER.error("Error connection to DB");
+        }
         return false;
     }
 
