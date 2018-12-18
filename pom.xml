@@ -9,6 +9,18 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <version.junit>4.12</version.junit>
+        <version.jdk>1.8</version.jdk>
+        <version.maven.plugin>2.5.1</version.maven.plugin>
+        <version.javax.servlet-api>3.1.0</version.javax.servlet-api>
+        <version.javax.servlet-jsp>2.2</version.javax.servlet-jsp>
+        <version.javax.servlet.jstl>1.2</version.javax.servlet.jstl>
+        <version.log4j>1.2.17</version.log4j>
+        <version.mysql.connector>6.0.6</version.mysql.connector>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -42,6 +54,12 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.31</version>
         </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${version.log4j}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -50,8 +68,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
 

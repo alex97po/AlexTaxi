@@ -1,4 +1,4 @@
-package com.pogorelov.model;
+package com.pogorelov.entity;
 
 
 import lombok.AllArgsConstructor;
@@ -10,15 +10,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-
-
-public class User {
-    private int id;
+public class ClientAuth {
+    private long id;
     private String login;
     private String password;
-    private ROLE role;
 
-    public enum ROLE {
-        CLIENT, DRIVER, UNKNOWN
-    }
+
 }
