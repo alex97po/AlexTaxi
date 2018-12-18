@@ -3,17 +3,20 @@ package com.pogorelov.dao.impl;
 import com.pogorelov.dao.daointerface.ClientAuthDAO;
 import com.pogorelov.dao.factory.DataSourceFactory;
 import com.pogorelov.entity.ClientAuth;
+import org.apache.log4j.Logger;
 
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
 public class MySQLClientAuthDAO implements ClientAuthDAO {
+    private static final Logger LOGGER = Logger.getLogger(MySQLClientDAO.class);
     private DataSourceFactory dataSourceFactory = DataSourceFactory.getInstance();
     private DataSource dataSource = dataSourceFactory.getDataSource();
 
     @Override
     public ClientAuth getClientAuthenticate(String login, String password) {
+
         return null;
     }
 
