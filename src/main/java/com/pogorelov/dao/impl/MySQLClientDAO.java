@@ -47,10 +47,8 @@ public class MySQLClientDAO implements ClientDAO {
     public boolean insert(Client client) {
         try (PreparedStatement preparedStatement =
                      dataSource.getConnection().prepareStatement(Query.INSERT_NEW_CLIENT)) {
-            preparedStatement.setString(1,client.getClientAuth().getLogin());
-            preparedStatement.setString(2,client.getClientAuth().getPassword());
-            preparedStatement.setString(3,client.getName());
-            preparedStatement.setString(4,client.getClientAuth().getLogin());
+            preparedStatement.setString(1,client.getName());
+            preparedStatement.setString(2,client.getClientAuth().getLogin());
         } catch (SQLException e) {
             LOGGER.error("Error connection to DB");
         }
@@ -59,11 +57,25 @@ public class MySQLClientDAO implements ClientDAO {
 
     @Override
     public boolean update(Client client) {
+        try (PreparedStatement preparedStatement =
+                     dataSource.getConnection().prepareStatement(Query.UPDATE_CLIENT)) {
+            preparedStatement.setString(1,client.getName());
+            preparedStatement.setBigDecimal(2,client.getMoneySpent());
+            preparedStatement.setLong(3,client.getId());
+        } catch (SQLException e) {
+            LOGGER.error("Error connection to DB");
+        }
         return false;
     }
 
     @Override
-    public boolean delete(Long aLong) {
+    public boolean delete(Long id) {
+        try (PreparedStatement preparedStatement =
+                     dataSource.getConnection().prepareStatement(Query.DELETE_CLIENT)) {
+            preparedStatement.setLong(1,id);
+        } catch (SQLException e) {
+            LOGGER.error("Error connection to DB");
+        }
         return false;
     }
 

@@ -62,11 +62,26 @@ public class MySQLTaxiDAO implements TaxiDAO {
 
     @Override
     public boolean update(Taxi taxi) {
+        try (PreparedStatement preparedStatement =
+                     dataSource.getConnection().prepareStatement(Query.UPDATE_TAXI)) {
+            preparedStatement.setString(1,taxi.getCarType());
+            preparedStatement.setString(2,taxi.getStateNumber());
+            preparedStatement.setString(3,taxi.getDriverName());
+            preparedStatement.setLong(4, taxi.getId());
+        } catch (SQLException e) {
+            LOGGER.error("Error connection to DB");
+        }
         return false;
     }
 
     @Override
-    public boolean delete(Long aLong) {
+    public boolean delete(Long id) {
+        try (PreparedStatement preparedStatement =
+                     dataSource.getConnection().prepareStatement(Query.DELETE_TAXI)) {
+            preparedStatement.setLong(1,id);
+        } catch (SQLException e) {
+            LOGGER.error("Error connection to DB");
+        }
         return false;
     }
 }
