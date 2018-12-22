@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class MySQLTaxiDAO implements TaxiDAO {
-    private static final Logger LOGGER = Logger.getLogger(MySQLClientDAO.class);
+    private static final Logger LOGGER = Logger.getLogger(MySQLTaxiDAO.class);
     private DataSourceFactory dataSourceFactory = DataSourceFactory.getInstance();
     private DataSource dataSource = dataSourceFactory.getDataSource();
 
