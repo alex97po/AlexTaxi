@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,7 +53,21 @@ public class MySQLRideDAO implements RideDAO {
 
     @Override
     public List<Ride> findAll() {
-        return null;
+        List<Ride> result = new ArrayList<>();
+        try (PreparedStatement preparedStatement =
+                     dataSource.getConnection().prepareStatement(Query.FIND_ALL_RIDE)) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    if (getEntityFromResultSet(resultSet).isPresent()) {
+                        result.add(getEntityFromResultSet(resultSet).get());
+                    }
+                    LOGGER.info("Table of Ride entities created");
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error connection to DB");
+        }
+        return result;
     }
 
     @Override

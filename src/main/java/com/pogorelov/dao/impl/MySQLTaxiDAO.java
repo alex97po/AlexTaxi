@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +45,21 @@ public class MySQLTaxiDAO implements TaxiDAO {
 
     @Override
     public List<Taxi> findAll() {
-        return null;
+        List<Taxi> result = new ArrayList<>();
+        try (PreparedStatement preparedStatement =
+                     dataSource.getConnection().prepareStatement(Query.FIND_ALL_TAXI)) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    if (getEntityFromResultSet(resultSet).isPresent()) {
+                        result.add(getEntityFromResultSet(resultSet).get());
+                }
+                    LOGGER.info("Table of Taxi entities created");
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error connection to DB");
+        }
+        return result;
     }
 
     @Override

@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,12 +18,6 @@ public class MySQLClientAuthDAO implements ClientAuthDAO {
     private static final Logger LOGGER = Logger.getLogger(MySQLClientAuthDAO.class);
     private DataSourceFactory dataSourceFactory = DataSourceFactory.getInstance();
     private DataSource dataSource = dataSourceFactory.getDataSource();
-
-    @Override
-    public ClientAuth getClientAuthenticate(String login, String password) {
-
-        return null;
-    }
 
     @Override
     public Optional<ClientAuth> findById(Long id) {
@@ -49,7 +44,21 @@ public class MySQLClientAuthDAO implements ClientAuthDAO {
 
     @Override
     public List<ClientAuth> findAll() {
-        return null;
+        List<ClientAuth> result = new ArrayList<>();
+        try (PreparedStatement preparedStatement =
+                     dataSource.getConnection().prepareStatement(Query.FIND_ALL_CLIENT_AUTH)) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    if (getEntityFromResultSet(resultSet).isPresent()) {
+                        result.add(getEntityFromResultSet(resultSet).get());
+                    }
+                    LOGGER.info("Table of Taxi entities created");
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error connection to DB");
+        }
+        return result;
     }
 
     @Override

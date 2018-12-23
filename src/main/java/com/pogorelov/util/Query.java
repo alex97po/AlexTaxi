@@ -7,6 +7,11 @@ public final class Query {
     public static final String FIND_RIDE_BY_ID = "SELECT * FROM ride WHERE id = ?;";
 
     public static final String FIND_ALL_TAXI = "SELECT * FROM taxi;";
+    public static final String FIND_ALL_RIDE = "SELECT * FROM taxi;";
+    public static final String FIND_ALL_CLIENT = "SELECT * FROM taxi;";
+    public static final String FIND_ALL_CLIENT_AUTH = "SELECT * FROM taxi;";
+
+
 
     public static final String INSERT_NEW_CLIENT_AUTH = "INSERT INTO client_auth (login, password) VALUES (?,?);";
     public static final String INSERT_NEW_CLIENT = "INSERT INTO client (name, client_auth_id) VALUES (?, SELECT id FROM client_auth WHERE login = ?);";

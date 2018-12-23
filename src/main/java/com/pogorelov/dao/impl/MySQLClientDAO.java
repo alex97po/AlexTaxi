@@ -4,6 +4,7 @@ import com.pogorelov.dao.daointerface.ClientDAO;
 import com.pogorelov.dao.factory.DataSourceFactory;
 import com.pogorelov.entity.Client;
 import com.pogorelov.entity.ClientAuth;
+import com.pogorelov.entity.Taxi;
 import com.pogorelov.util.Query;
 import org.apache.log4j.Logger;
 
@@ -13,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +42,21 @@ public class MySQLClientDAO implements ClientDAO {
 
     @Override
     public List<Client> findAll() {
-        return null;
+        List<Client> result = new ArrayList<>();
+        try (PreparedStatement preparedStatement =
+                     dataSource.getConnection().prepareStatement(Query.FIND_ALL_CLIENT)) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    if (getEntityFromResultSet(resultSet).isPresent()) {
+                        result.add(getEntityFromResultSet(resultSet).get());
+                    }
+                    LOGGER.info("Table of Taxi entities created");
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error connection to DB");
+        }
+        return result;
     }
 
     @Override
