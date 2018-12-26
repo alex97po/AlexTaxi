@@ -4,13 +4,11 @@ import com.pogorelov.dao.daointerface.ClientDAO;
 import com.pogorelov.dao.factory.DataSourceFactory;
 import com.pogorelov.entity.Client;
 import com.pogorelov.entity.ClientAuth;
-import com.pogorelov.entity.Taxi;
 import com.pogorelov.util.Query;
 import org.apache.log4j.Logger;
 
 import javax.sql.DataSource;
 import java.math.BigDecimal;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -7,6 +7,7 @@ import com.pogorelov.util.Query;
 import org.apache.log4j.Logger;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +19,38 @@ public class MySQLClientAuthDAO implements ClientAuthDAO {
     private static final Logger LOGGER = Logger.getLogger(MySQLClientAuthDAO.class);
     private DataSourceFactory dataSourceFactory = DataSourceFactory.getInstance();
     private DataSource dataSource = dataSourceFactory.getDataSource();
+
+    public MySQLClientAuthDAO () {
+    }
+
+    public MySQLClientAuthDAO (Connection connection) {
+    }
+
+    @Override
+    public Optional<ClientAuth> findOneByLogin(String login) {
+        try (PreparedStatement preparedStatement =
+                     dataSource.getConnection().prepareStatement(Query.FIND_CLIENT_AUTH_BY_LOGIN)) {
+            preparedStatement.setString(1, login);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return getEntityFromResultSet(resultSet);
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error connection to DB");
+        }
+        return Optional.empty();
+    }
+
+    private static class MySQLClientAuthDAOHolder {
+        private static MySQLClientAuthDAO instance(Connection connection) {
+            return new MySQLClientAuthDAO(connection);
+        }
+    }
+
+    public static MySQLClientAuthDAO getInstance(Connection connection) {
+        return MySQLClientAuthDAOHolder.instance(connection);
+    }
 
     @Override
     public Optional<ClientAuth> findById(Long id) {
@@ -96,4 +129,6 @@ public class MySQLClientAuthDAO implements ClientAuthDAO {
         }
         return false;
     }
+
+
 }

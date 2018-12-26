@@ -15,5 +15,10 @@ public class ClientAuth {
     private String login;
     private String password;
 
+    public ClientAuth(String login,String password){
+        this.login = login;
+        this.password = password;
+    }
+
 
 }

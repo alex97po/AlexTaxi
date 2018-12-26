@@ -6,6 +6,8 @@ public final class Query {
     public static final String FIND_TAXI_BY_ID = "SELECT * FROM client WHERE id = ?;";
     public static final String FIND_RIDE_BY_ID = "SELECT * FROM ride WHERE id = ?;";
 
+    public static final String FIND_CLIENT_AUTH_BY_LOGIN = "SELECT * FROM client_auth WHERE login = ?;";
+
     public static final String FIND_ALL_TAXI = "SELECT * FROM taxi;";
     public static final String FIND_ALL_RIDE = "SELECT * FROM taxi;";
     public static final String FIND_ALL_CLIENT = "SELECT * FROM taxi;";
